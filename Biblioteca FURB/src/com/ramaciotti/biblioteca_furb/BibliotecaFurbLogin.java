@@ -3,6 +3,7 @@ package com.ramaciotti.biblioteca_furb;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -15,22 +16,11 @@ public class BibliotecaFurbLogin extends Activity {
     }
     
     public void onRenovar(View view) {
-    	final BibliotecaFurbLogin thisActivity = this;
+    	String usuario = ((EditText) findViewById(R.id.edit_username)).getText().toString();
+    	String senha = ((EditText) findViewById(R.id.edit_password)).getText().toString();
     	
-    	new Thread(new Runnable() {
-			public void run() {
-				EditText usuario = (EditText) findViewById(R.id.edit_username);
-		    	EditText password = (EditText) findViewById(R.id.edit_password);
-		    	
-		   		LoginService loginService = new LoginService(new LoginUrl(), new UrlRedirection(), new UrlCookies());
-		   		try {
-					loginService.getCookies(usuario.getText().toString(), password.getText().toString());
-					thisActivity.showText("Login bem sucedido");
-				} catch (Exception e) {
-					thisActivity.showText("Falha ao fazer login");
-				}
-			}
-		}).start();
+    	Renovador renovador = new Renovador(this, usuario, senha);
+    	renovador.start();
     }
     
     public void showText(final String text) {
@@ -43,10 +33,13 @@ public class BibliotecaFurbLogin extends Activity {
 		});
     }
 
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_biblioteca_furb_login, menu);
-        return true;
-    }*/
+    public void toggleLoginButton() {
+    	final Button renovar = (Button) findViewById(R.id.button_login);
+    	
+    	runOnUiThread(new Runnable() {
+    		public void run() {
+    	    	renovar.setEnabled(!renovar.isEnabled());    			
+    		}
+    	});
+    }
 }
