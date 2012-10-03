@@ -15,6 +15,8 @@ public class BibliotecaFurbLogin extends Activity {
     }
     
     public void onRenovar(View view) {
+    	final BibliotecaFurbLogin thisActivity = this;
+    	
     	new Thread(new Runnable() {
 			public void run() {
 				EditText usuario = (EditText) findViewById(R.id.edit_username);
@@ -23,12 +25,22 @@ public class BibliotecaFurbLogin extends Activity {
 		   		LoginService loginService = new LoginService(new LoginUrl(), new UrlRedirection(), new UrlCookies());
 		   		try {
 					loginService.getCookies(usuario.getText().toString(), password.getText().toString());
+					thisActivity.showText("Login bem sucedido");
 				} catch (Exception e) {
-					e.printStackTrace();
+					thisActivity.showText("Falha ao fazer login");
 				}
-		   		
 			}
 		}).start();
+    }
+    
+    public void showText(final String text) {
+    	final Activity thisActivity = this;
+    	
+    	runOnUiThread(new Runnable() {
+			public void run() {
+				Toast.makeText(thisActivity, text, Toast.LENGTH_SHORT).show();
+			}
+		});
     }
 
     /*
