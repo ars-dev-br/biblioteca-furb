@@ -1,11 +1,11 @@
 package com.ramaciotti.biblioteca_furb;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class BibliotecaFurbLogin extends Activity {
 
@@ -28,7 +28,11 @@ public class BibliotecaFurbLogin extends Activity {
     	
     	runOnUiThread(new Runnable() {
 			public void run() {
-				Toast.makeText(thisActivity, text, Toast.LENGTH_SHORT).show();
+				new AlertDialog.Builder(thisActivity)
+							   .setTitle("Biblioteca FURB")
+							   .setMessage(text)
+							   .setPositiveButton("OK", null)
+							   .show();
 			}
 		});
     }

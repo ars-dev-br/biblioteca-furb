@@ -1,5 +1,6 @@
 package com.ramaciotti.biblioteca_furb;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Renovador extends Thread {
@@ -22,13 +23,20 @@ public class Renovador extends Thread {
 			cookies = loginService.getCookies(mUsuario, mSenha);
 			
 			RenovacaoService renovacaoService = new RenovacaoService(cookies);
-			List<String> registros = renovacaoService.buscaRegistros();
+			List<String> reservados = new ArrayList<String>();
 			
-			for(String registro : registros) {
-				renovacaoService.renova(registro);
+			for(String registro : renovacaoService.buscaRegistros()) {
+				if(!renovacaoService.renova(registro))
+					reservados.add(registro);
 			}
-			
-			mLoginActivity.showText(registros.toString());
+
+			if(reservados.isEmpty()) {
+				mLoginActivity.showText("Empréstimos renovados com sucesso.");
+			} else if(reservados.size() == 1) {
+				mLoginActivity.showText("Algum empréstimo não pode ser reservado: " + reservados);
+			} else {
+				mLoginActivity.showText("Alguns empréstimos não puderam ser reservados: " + reservados);
+			}
 		} catch (LoginInvalidoException e) {
 			mLoginActivity.showText("Nome de usuário ou senha incorretos.");
 		} catch (Exception e) {
