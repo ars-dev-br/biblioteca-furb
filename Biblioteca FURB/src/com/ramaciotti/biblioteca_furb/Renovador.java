@@ -24,6 +24,10 @@ public class Renovador extends Thread {
 			RenovacaoService renovacaoService = new RenovacaoService(cookies);
 			List<String> registros = renovacaoService.buscaRegistros();
 			
+			for(String registro : registros) {
+				renovacaoService.renova(registro);
+			}
+			
 			mLoginActivity.showText(registros.toString());
 		} catch (LoginInvalidoException e) {
 			mLoginActivity.showText("Nome de usuário ou senha incorretos.");
