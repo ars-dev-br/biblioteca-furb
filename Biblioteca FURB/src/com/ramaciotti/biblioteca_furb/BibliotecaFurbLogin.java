@@ -16,7 +16,7 @@ public class BibliotecaFurbLogin extends Activity {
     }
     
     public void onRenovar(View view) {
-    	String usuario = ((EditText) findViewById(R.id.edit_username)).getText().toString();
+    	String usuario = ((EditText) findViewById(R.id.edit_username)).getText().toString().toLowerCase();
     	String senha = ((EditText) findViewById(R.id.edit_password)).getText().toString();
     	
     	Renovador renovador = new Renovador(this, usuario, senha);
