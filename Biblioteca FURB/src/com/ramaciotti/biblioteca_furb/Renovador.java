@@ -1,7 +1,8 @@
 package com.ramaciotti.biblioteca_furb;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import android.content.Intent;
 
 public class Renovador extends Thread {
 	private BibliotecaFurbLogin mLoginActivity;
@@ -22,27 +23,16 @@ public class Renovador extends Thread {
    		try {
 			cookies = loginService.getCookies(mUsuario, mSenha);
 			
-			RenovacaoService renovacaoService = new RenovacaoService(cookies);
-			List<String> reservados = new ArrayList<String>();
-			
-			for(String registro : renovacaoService.buscaRegistros()) {
-				if(!renovacaoService.renova(registro))
-					reservados.add(registro);
-			}
-
-			if(reservados.isEmpty()) {
-				mLoginActivity.showText("Empréstimos renovados com sucesso.");
-			} else if(reservados.size() == 1) {
-				mLoginActivity.showText("Algum empréstimo não pode ser reservado: " + reservados);
-			} else {
-				mLoginActivity.showText("Alguns empréstimos não puderam ser reservados: " + reservados);
-			}
-		} catch (LoginInvalidoException e) {
+			Intent intent = new Intent(mLoginActivity, ListaLivros.class);
+			intent.putExtra("com.ramaciotti.biblioteca_furb.cookies", cookies.get(0));
+			mLoginActivity.startActivity(intent);
+   		} catch(Exception e) {
+   			e.printStackTrace();
+   		}
+   		/*} catch (LoginInvalidoException e) {
 			mLoginActivity.showText("Nome de usuário ou senha incorretos.");
 		} catch (Exception e) {
 			mLoginActivity.showText("Falha ao fazer login.");
-		}
-   		
-   		mLoginActivity.toggleLoginButton();
+		}*/
 	}
 }
