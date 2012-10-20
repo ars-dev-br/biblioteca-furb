@@ -2,6 +2,8 @@ package com.ramaciotti.biblioteca_furb;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,10 +11,17 @@ import android.widget.EditText;
 
 public class BibliotecaFurbLogin extends Activity {
 
+	public static final String sharedPrefUsuario = "usuario";
+	public static final String sharedPrefSenha = "senha";
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_biblioteca_furb_login);
+        
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        ((EditText) findViewById(R.id.edit_username)).setText(sharedPref.getString(sharedPrefUsuario, ""));
+        ((EditText) findViewById(R.id.edit_password)).setText(sharedPref.getString(sharedPrefSenha, ""));
     }
     
     public void onRenovar(View view) {
