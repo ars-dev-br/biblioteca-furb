@@ -7,7 +7,6 @@ import java.util.List;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.SimpleAdapter;
 
 public class ListaLivros extends ListActivity {
@@ -17,11 +16,12 @@ public class ListaLivros extends ListActivity {
         super.onCreate(savedInstanceState);
         
         Intent intent = getIntent();
+        String cookie = intent.getStringExtra("cookie");
         
         List<HashMap<String, String>> fill = new ArrayList<HashMap<String, String>>();
         
         HashMap<String, String> hash = new HashMap<String, String>();
-        hash.put("titulo", intent.getStringExtra("com.ramaciotti.biblioteca_furb.cookies"));
+        hash.put("titulo", cookie);
         
         fill.add(hash);
         
@@ -30,5 +30,4 @@ public class ListaLivros extends ListActivity {
         
         setListAdapter(adapter);
     }
-
 }

@@ -9,10 +9,10 @@
     <Button android:id="@+id/button_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_renew"
+        android:text="@string/button_login"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:onClick="onRenovar" />
+        android:onClick="onLogin" />
     
     <EditText android:id="@+id/edit_password"
         android:layout_width="match_parent"

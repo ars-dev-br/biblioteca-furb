@@ -6,7 +6,7 @@
     <string name="title_activity_biblioteca_furb_login">Biblioteca FURB</string>
     <string name="edit_username">Usuário</string>
     <string name="edit_password">Senha</string>
-    <string name="button_renew">Renovar</string>
+    <string name="button_login">Logar</string>
     <string name="logo_description">FURB</string>
     <string name="title_activity_lista_livros">Biblioteca FURB</string>
 
