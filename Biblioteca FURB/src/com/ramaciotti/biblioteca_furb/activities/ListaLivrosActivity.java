@@ -1,4 +1,4 @@
-package com.ramaciotti.biblioteca_furb;
+package com.ramaciotti.biblioteca_furb.activities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.SimpleAdapter;
 
-public class ListaLivros extends ListActivity {
+import com.ramaciotti.biblioteca_furb.R;
+
+public class ListaLivrosActivity extends ListActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -1,10 +1,12 @@
-package com.ramaciotti.biblioteca_furb;
+package com.ramaciotti.networking;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.ramaciotti.biblioteca_furb.LoginInvalidoException;
 
 public class UrlRedirection {
 

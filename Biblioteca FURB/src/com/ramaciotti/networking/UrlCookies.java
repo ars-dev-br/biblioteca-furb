@@ -1,4 +1,4 @@
-package com.ramaciotti.biblioteca_furb;
+package com.ramaciotti.networking;
 
 import java.net.HttpURLConnection;
 import java.net.URL;

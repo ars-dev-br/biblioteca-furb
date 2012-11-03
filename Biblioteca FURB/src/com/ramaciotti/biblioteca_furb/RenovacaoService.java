@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.ramaciotti.networking.ConnectionBuilder;
+
 public class RenovacaoService {
 	private static final String urlBase = "http://www.bc.furb.br/consulta/servicosUsuario/";
 	private static final String urlSituacao = urlBase + "situacao_usuario.php";

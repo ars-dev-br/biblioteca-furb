@@ -3,6 +3,9 @@ package com.ramaciotti.biblioteca_furb;
 import java.net.HttpURLConnection;
 import java.util.List;
 
+import com.ramaciotti.networking.UrlCookies;
+import com.ramaciotti.networking.UrlRedirection;
+
 public class LoginService {
 	private LoginUrl mLoginUrl;
 	private UrlRedirection mUrlRedirection;

@@ -2,6 +2,8 @@ package com.ramaciotti.biblioteca_furb;
 
 import java.net.HttpURLConnection;
 
+import com.ramaciotti.networking.ConnectionBuilder;
+
 public class LoginUrl {
 	private static final String url = "https://www.furb.br/scripts/ssl_ldap/ssl_ldap_bc.php";
 	private static final String queryFormat = "acao=validar&"
