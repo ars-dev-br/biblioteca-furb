@@ -15,15 +15,15 @@ public class RenovacaoService {
 	private static final String urlSituacao = urlBase + "situacao_usuario.php";
 	private static final String urlRenovacao = urlBase + "servicos.php?tpServico=renovar&nrRegistro=%s";
 	
-	private List<String> mCookies;
+	private String mCookie;
 	
-	public RenovacaoService(List<String> cookies) {
-		this.mCookies = cookies;
+	public RenovacaoService(String cookie) {
+		this.mCookie = cookie;
 	}
 	
 	public List<String> buscaRegistros() throws Exception {
 		HttpURLConnection connection = new ConnectionBuilder(urlSituacao)
-										   .withCookies(mCookies)
+										   .withCookie(mCookie)
 										   .getConnection();
 		
 		try {
@@ -54,7 +54,7 @@ public class RenovacaoService {
 
 	public boolean renova(String registro) throws Exception {
 		HttpURLConnection connection = new ConnectionBuilder(String.format(urlRenovacao, registro))
-										   .withCookies(mCookies)
+										   .withCookie(mCookie)
 										   .getConnection();
 		
 		try {

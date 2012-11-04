@@ -17,9 +17,14 @@ public class ConnectionBuilder {
 	
 	public ConnectionBuilder withCookies(List<String> cookies) {
 		for(String cookie : cookies) {
-			mConnection.addRequestProperty("Cookie", cookie.split(";", 2)[0]);
+			withCookie(cookie);
 		}
 		
+		return this;
+	}
+	
+	public ConnectionBuilder withCookie(String cookie) {
+		mConnection.addRequestProperty("Cookie", cookie.split(";", 2)[0]);
 		return this;
 	}
 	
