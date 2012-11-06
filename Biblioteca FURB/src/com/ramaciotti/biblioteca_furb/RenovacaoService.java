@@ -9,6 +9,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.AbstractHttpClient;
 
+import com.ramaciotti.biblioteca_furb.networking.ResponseContent;
+
 public class RenovacaoService {
 	private static final String urlBase = "http://www.bc.furb.br/consulta/servicosUsuario/";
 	private static final String urlSituacao = urlBase + "situacao_usuario.php";
