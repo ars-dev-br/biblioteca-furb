@@ -1,8 +1,13 @@
 package com.ramaciotti.biblioteca_furb.threads;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+import org.apache.http.client.CookieStore;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.widget.SimpleAdapter;
 
@@ -13,15 +18,18 @@ import com.ramaciotti.biblioteca_furb.activities.ListaLivrosActivity;
 public class ListaLivrosThread extends Thread {
 	
 	private ListaLivrosActivity mListaLivrosActivity;
-	private String mCookie;
+	private Cookie mCookie;
 	
 	public ListaLivrosThread(ListaLivrosActivity listaLivrosActivity, String cookie) {
 		this.mListaLivrosActivity = listaLivrosActivity;
-		this.mCookie = cookie;
+		this.mCookie = remontaCookie(cookie);
 	}
 	
 	public void run() {
-		RenovacaoService renovacao = new RenovacaoService(mCookie);
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+		httpClient.setCookieStore(remontaCookieStore(mCookie));
+		
+		RenovacaoService renovacao = new RenovacaoService(httpClient);
 
 		try {
 			List<String> registros = renovacao.buscaRegistros();
@@ -40,6 +48,39 @@ public class ListaLivrosThread extends Thread {
 			mListaLivrosActivity.setAdaptador(adapter);
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			httpClient.getConnectionManager().shutdown();
 		}
+	}
+	
+	private Cookie remontaCookie(final String cookieValue) {
+		return new Cookie() {
+			public boolean isSecure() { return false; }
+			public boolean isPersistent() { return false; }
+			public boolean isExpired(Date date) { return false; }
+			public int getVersion() { return 0; }
+			public String getValue() { return cookieValue; }
+			public int[] getPorts() { return null; }
+			public String getPath() { return "/"; }
+			public String getName() { return "PHPSESSID"; }
+			public Date getExpiryDate() { return null; }
+			public String getDomain() { return "www.bc.furb.br"; }
+			public String getCommentURL() { return null; }
+			public String getComment() { return null; }
+		};
+	}
+	
+	private CookieStore remontaCookieStore(final Cookie cookie) {
+		return new CookieStore() {
+			public List<Cookie> getCookies() {
+				List<Cookie> lista = new ArrayList<Cookie>();
+				lista.add(cookie);
+				return lista;
+			}
+			
+			public boolean clearExpired(Date date) { return false; }
+			public void clear() { }
+			public void addCookie(Cookie cookie) { }
+		};
 	}
 }

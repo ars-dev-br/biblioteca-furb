@@ -1,58 +1,44 @@
 package com.ramaciotti.biblioteca_furb;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.ramaciotti.networking.ConnectionBuilder;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.AbstractHttpClient;
 
 public class RenovacaoService {
 	private static final String urlBase = "http://www.bc.furb.br/consulta/servicosUsuario/";
 	private static final String urlSituacao = urlBase + "situacao_usuario.php";
 	private static final String urlRenovacao = urlBase + "servicos.php?tpServico=renovar&nrRegistro=%s";
 	
-	private String mCookie;
+	private AbstractHttpClient mHttpClient;
 	
-	public RenovacaoService(String cookie) {
-		this.mCookie = cookie;
+	public RenovacaoService(AbstractHttpClient httpClient) {
+		this.mHttpClient = httpClient;
 	}
 	
 	public List<String> buscaRegistros() throws Exception {
-		HttpURLConnection connection = new ConnectionBuilder(urlSituacao)
-										   .withCookie(mCookie)
-										   .getConnection();
+		HttpGet httpGet = new HttpGet(urlSituacao);
+		HttpResponse response = mHttpClient.execute(httpGet);
 		
-		try {
-			connection.connect();
-			
-			List<String> linhas = new ArrayList<String>();
-			InputStreamReader input = new InputStreamReader(connection.getInputStream());
-			BufferedReader reader = new BufferedReader(input);
-			
-			while(reader.ready()) {
-				linhas.add(reader.readLine());
+		List<String> conteudo = new ResponseContent().getLines(response);
+		
+		List<String> registros = new ArrayList<String>();
+		Pattern pattern = Pattern.compile("_blank\">(.*)</A>&nbsp");
+		for(String linha : conteudo) {
+			Matcher matcher = pattern.matcher(linha);
+			if(matcher.find()) {
+				registros.add(matcher.group(1));
 			}
-			
-			List<String> registros = new ArrayList<String>();
-			Pattern pattern = Pattern.compile("_blank\">(.*)</A>&nbsp");
-			for(String linha : linhas) {
-				Matcher matcher = pattern.matcher(linha);
-				if(matcher.find()) {
-					registros.add(matcher.group(1));
-				}
-			}
-			
-			return registros;		
-		} finally {
-			connection.disconnect();
 		}
+		
+		return registros;
 	}
-
-	public boolean renova(String registro) throws Exception {
+	
+	/*public boolean renova(String registro) throws Exception {
 		HttpURLConnection connection = new ConnectionBuilder(String.format(urlRenovacao, registro))
 										   .withCookie(mCookie)
 										   .getConnection();
@@ -71,5 +57,5 @@ public class RenovacaoService {
 		} finally {
 			connection.disconnect();
 		}
-	}
+	}*/
 }

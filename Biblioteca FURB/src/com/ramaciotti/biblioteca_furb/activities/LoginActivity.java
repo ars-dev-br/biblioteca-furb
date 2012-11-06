@@ -1,5 +1,9 @@
 package com.ramaciotti.biblioteca_furb.activities;
 
+import java.util.List;
+
+import org.apache.http.cookie.Cookie;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -38,14 +42,15 @@ public class LoginActivity extends Activity {
     	new LoginThread(this, usuario, senha).start();
     }
     
-    public void loginComSucesso(String cookie) {
+    public void loginComSucesso(List<Cookie> cookies) {
     	Preferencias preferencias = new Preferencias(getPreferences(Context.MODE_PRIVATE));
     	preferencias.salvaLogin(getUsuario(), getSenha());
     	
     	mProgressDialog.dismiss();
     	
     	Intent intent = new Intent(this, ListaLivrosActivity.class);
-    	intent.putExtra("cookie", cookie);
+    	intent.putExtra("cookie", cookies.get(0).getValue());
+    	
     	startActivity(intent);
     }
     

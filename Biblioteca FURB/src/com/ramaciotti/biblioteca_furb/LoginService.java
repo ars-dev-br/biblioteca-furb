@@ -1,27 +1,30 @@
 package com.ramaciotti.biblioteca_furb;
 
-import java.net.HttpURLConnection;
 import java.util.List;
 
-import com.ramaciotti.networking.UrlCookies;
-import com.ramaciotti.networking.UrlRedirection;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.client.AbstractHttpClient;
+
+import com.ramaciotti.biblioteca_furb.networking.LoginRequest;
+import com.ramaciotti.biblioteca_furb.networking.UrlCookies;
+import com.ramaciotti.biblioteca_furb.networking.UrlRedirection;
 
 public class LoginService {
-	private LoginUrl mLoginUrl;
-	private UrlRedirection mUrlRedirection;
-	private UrlCookies mUrlCookies;
-
-	public LoginService(LoginUrl loginUrl, UrlRedirection urlRedirection, UrlCookies urlCookies) {
-		this.mLoginUrl = loginUrl;
-		this.mUrlRedirection = urlRedirection;
-		this.mUrlCookies = urlCookies;
-	}
+	private AbstractHttpClient mHttpClient;
 	
-	public List<String> getCookies(String user, String password) throws Exception {
-		HttpURLConnection connection = mLoginUrl.getConnection(user, password);
-		String redirectedUrl = mUrlRedirection.redirectedUrl(connection);
+	public LoginService(AbstractHttpClient httpClient) {
+		this.mHttpClient = httpClient;
+	}
+
+	public List<Cookie> getCookies(String user, String password) throws Exception {
+		HttpUriRequest request = new LoginRequest().getRequest(user, password);
+		HttpResponse response = mHttpClient.execute(request);
+		String content = new ResponseContent().getFullContent(response);
+		String novaUrl = new UrlRedirection().getUrl(content);
 		
-		return mUrlCookies.getCookies(redirectedUrl);
+		return new UrlCookies(mHttpClient).getCookies(novaUrl);
 	}
 	
 }

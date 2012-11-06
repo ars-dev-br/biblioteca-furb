@@ -1,5 +1,9 @@
 package com.ramaciotti.biblioteca_furb.activities;
 
+import java.util.Date;
+
+import org.apache.http.cookie.Cookie;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;

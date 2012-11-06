@@ -2,12 +2,12 @@ package com.ramaciotti.biblioteca_furb.threads;
 
 import java.util.List;
 
+import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.client.DefaultHttpClient;
+
 import com.ramaciotti.biblioteca_furb.LoginInvalidoException;
 import com.ramaciotti.biblioteca_furb.LoginService;
-import com.ramaciotti.biblioteca_furb.LoginUrl;
 import com.ramaciotti.biblioteca_furb.activities.LoginActivity;
-import com.ramaciotti.networking.UrlCookies;
-import com.ramaciotti.networking.UrlRedirection;
 
 public class LoginThread extends Thread {
 	
@@ -23,18 +23,19 @@ public class LoginThread extends Thread {
 	}
 
 	public void run() {
-		LoginService loginService = new LoginService(new LoginUrl(), new UrlRedirection(), new UrlCookies());
-		String cookie = null;
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+		LoginService loginService = new LoginService(httpClient);
 		
 		try {
-			List<String> cookies = loginService.getCookies(mUsuario, mSenha); 
-			cookie = cookies.get(0);
-			mLoginActivity.loginComSucesso(cookie);
+			List<Cookie> cookies = loginService.getCookies(mUsuario, mSenha); 
+			mLoginActivity.loginComSucesso(cookies);
 		} catch(LoginInvalidoException e) {
 			mLoginActivity.loginSemSucesso("Nome de usuário ou senha incorretos.");
 		} catch(Exception e) {
 			e.printStackTrace();
 			mLoginActivity.loginSemSucesso("Falha ao fazer login.");
+		} finally {
+			httpClient.getConnectionManager().shutdown();
 		}
 	}
 
