@@ -18,8 +18,7 @@ import com.ramaciotti.biblioteca_furb.R;
 import com.ramaciotti.biblioteca_furb.threads.LoginThread;
 
 public class LoginActivity extends Activity {
-	
-	ProgressDialog mProgressDialog;
+	private ProgressDialog mProgressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

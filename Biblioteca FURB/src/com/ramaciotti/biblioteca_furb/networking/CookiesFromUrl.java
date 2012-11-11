@@ -8,11 +8,11 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.AbstractHttpClient;
 
-public class UrlCookies {
+public class CookiesFromUrl {
 
 	private AbstractHttpClient mHttpClient;
 
-	public UrlCookies(AbstractHttpClient httpClient) {
+	public CookiesFromUrl(AbstractHttpClient httpClient) {
 		this.mHttpClient = httpClient;
 	}
 	

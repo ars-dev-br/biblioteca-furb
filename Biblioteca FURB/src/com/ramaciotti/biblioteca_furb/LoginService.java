@@ -9,7 +9,7 @@ import org.apache.http.impl.client.AbstractHttpClient;
 
 import com.ramaciotti.biblioteca_furb.networking.LoginRequest;
 import com.ramaciotti.biblioteca_furb.networking.ResponseContent;
-import com.ramaciotti.biblioteca_furb.networking.UrlCookies;
+import com.ramaciotti.biblioteca_furb.networking.CookiesFromUrl;
 import com.ramaciotti.biblioteca_furb.networking.UrlRedirection;
 
 public class LoginService {
@@ -25,7 +25,7 @@ public class LoginService {
 		String content = new ResponseContent().getFullContent(response);
 		String novaUrl = new UrlRedirection().getUrl(content);
 		
-		return new UrlCookies(mHttpClient).getCookies(novaUrl);
+		return new CookiesFromUrl(mHttpClient).getCookies(novaUrl);
 	}
 	
 }
