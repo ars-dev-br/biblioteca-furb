@@ -116,6 +116,7 @@ public class ListaLivrosActivity extends ListActivity {
     
     @Override
     public void onDestroy() {
+    	super.onDestroy();
     	mHttpClient.getConnectionManager().shutdown();
     }
 }
