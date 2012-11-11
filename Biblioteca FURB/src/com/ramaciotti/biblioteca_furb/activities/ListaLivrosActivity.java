@@ -21,6 +21,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.ramaciotti.biblioteca_furb.R;
+import com.ramaciotti.biblioteca_furb.Registro;
 import com.ramaciotti.biblioteca_furb.networking.CookieImpl;
 import com.ramaciotti.biblioteca_furb.networking.CookieStoreImpl;
 import com.ramaciotti.biblioteca_furb.threads.ListaLivrosThread;
@@ -45,8 +46,8 @@ public class ListaLivrosActivity extends ListActivity {
         new ListaLivrosThread(this, mHttpClient).start();
     }
     
-    public void setRegistros(List<String> registros) {
-    	ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+    public void setRegistros(List<Registro> registros) {
+    	ArrayAdapter<Registro> adapter = new ArrayAdapter<Registro>(this,
 				android.R.layout.simple_list_item_multiple_choice, registros);
     	setAdaptador(adapter);
     	
@@ -89,8 +90,10 @@ public class ListaLivrosActivity extends ListActivity {
     	List<String> registros = new ArrayList<String>();
     	
     	for(int i = 0; i < checkedItems.size(); i++) {
-    		if(checkedItems.valueAt(i))
-    			registros.add((String) getListAdapter().getItem(checkedItems.keyAt(i)));
+    		if(checkedItems.valueAt(i)) {
+    			Registro registro = (Registro) getListAdapter().getItem(checkedItems.keyAt(i)); 
+    			registros.add(registro.getCodigo());
+    		}
     	}
     	
     	new RenovaLivrosThread(this, registros, mHttpClient).start();
