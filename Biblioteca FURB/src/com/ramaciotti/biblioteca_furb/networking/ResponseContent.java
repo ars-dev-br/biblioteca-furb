@@ -14,7 +14,7 @@ public class ResponseContent {
 	public String getFullContent(HttpResponse response) throws IllegalStateException, IOException {
 		HttpEntity entity = response.getEntity();
 		
-		BufferedReader input = new BufferedReader(new InputStreamReader(entity.getContent()));
+		BufferedReader input = new BufferedReader(new InputStreamReader(entity.getContent(), "iso-8859-1"));
 		StringBuilder sb = new StringBuilder();
 		String line = null;
 		
@@ -28,7 +28,7 @@ public class ResponseContent {
 	public List<String> getLines(HttpResponse response) throws IOException {
 		HttpEntity entity = response.getEntity();
 		
-		BufferedReader input = new BufferedReader(new InputStreamReader(entity.getContent()));
+		BufferedReader input = new BufferedReader(new InputStreamReader(entity.getContent(), "iso-8859-1"));
 		List<String> linhas = new ArrayList<String>();
 		String linha = null;
 		
